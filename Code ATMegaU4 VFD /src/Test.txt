@@ -1,0 +1,63 @@
+#include <stdio.h>
+#include <stdint.h>
+
+#define VOLTAGE A5
+#define CURRENT A4
+
+#define DATA 4
+#define CLK 12
+#define STR 6
+
+#define GRID_NUMBER 11
+#define CONVERSION_FACTOR_30V 29.3255131965 // 30/1023 * 1000
+#define CONVERSION_FACTOR_6A 5.8651026393 // 6/1023 * 1000
+
+void display(uint16_t, uint16_t);
+
+int main() 
+{
+        uint16_t voltage = 5;//analogRead(VOLTAGE) * CONVERSION_FACTOR_30V;
+        uint16_t current = 12345;//analogRead(CURRENT) * CONVERSION_FACTOR_6A;
+        display(voltage, current);
+}
+
+//  BCD
+// A B C D DP G1 G2 G3 G4 G5 G7 G8 G9 G10 G11
+// 0 0 0 1 0 0 1 1 1 1 1 1 1 1 1 0 0 
+
+void display(uint16_t voltage, uint16_t current) 
+{
+
+  uint32_t bin = (voltage * 100000) + current;
+
+  for (uint8_t grid_index = 0; grid_index < GRID_NUMBER; grid_index++)
+  {
+    uint16_t display_value = 0;
+    // Extracts each value from a number
+    display_value = (bin % 10);
+    bin /= 10;
+    printf("%d\n", display_value);
+
+    // // Ensures that only spacific grids can be energises
+    if (grid_index == 6)
+    {
+      grid_index = 7;
+    } else if (grid_index == 4 || grid_index == 10) 
+    {
+      display_value += 1 << 4;
+    }
+    
+    // Moves to the next grid
+    display_value += 1 << (15 - grid_index);
+
+    printf("\n");
+    // Shifts the value in to the shift register
+    for (uint8_t i = 0; i < 16; i++)  {
+        printf("%d", (display_value & 32768) == 0);
+        display_value <<= 1;
+        //printf("CLK 0\n");
+		//printf("CLK 1\n");
+    }		
+    printf("\n");
+  }
+}
