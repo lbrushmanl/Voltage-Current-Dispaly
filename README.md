@@ -18,13 +18,13 @@ A B C D DP G1 G2 G3 G4 G5 G7 G8 G9 G10 G11
 I assembled one board fully and found out that a few things were wrong. I also used my ATMegaU4 dev board for testing rather than the ATMega8, as it was easier to use
 The main thing I found wrong was the C segment was connected to the comma. I also found out that the Blanking pin of the decoder was connected high rather than low. The biggest issue was that the display was the wrong way around. Flipping it fixed the problem however it no longer looks as good.
 
-View of test setup
+View of the test setup
 ![20230209_123035](https://user-images.githubusercontent.com/114579521/219331909-ee1642f7-fa74-4598-823d-415e615510e7.jpg)
 
-Inital Test after fixing the PCB showing 0 and the dot
+Initial test after fixing the PCB showing 0 and the dot
 ![20230209_123032](https://user-images.githubusercontent.com/114579521/219331513-a37fdbaa-e529-4029-b8e7-6f42b351792a.jpg)
 
-First numbers quite dim
+The first numbers are quite dim
 ![20230209_132045](https://user-images.githubusercontent.com/114579521/219332139-29e069a8-0289-42ab-bb41-081f12b3fc36.jpg)
 
 Finaly brighter and the ADC is conected 
